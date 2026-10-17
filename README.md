@@ -7,9 +7,13 @@ Snap a Hot Wheels car in its pack. Peg Hunter tells you if it is a Treasure Hunt
 | Part | Where | What it does |
 |---|---|---|
 | Web app | `public/` | Plain HTML, CSS and JS. No build step. Installable as an app (PWA) and works offline. |
-| Scanner | `api/scan.js` → `lib/scan.js` | One serverless function. Sends the photo to Claude and returns the car type, a price-list match and evidence. The API key stays on the server. |
-| Price list | `public/data/prices.json` | The 2026 Supers and Treasure Hunts. Edit this file to update prices; the app and the scanner both read it. |
+| Scanner | `api/scan.js` → `lib/scan.js` | One serverless function, two modes: **One card** (type, match, evidence) and **Peg sweep** (every card on a peg wall, with boxes). Matches are checked against the database on the server. The API key stays on the server. |
+| Car database | `public/data/catalog.json` | 543 cars: the full 2026 range (440, incl. all 30 Treasure Hunts and Supers) and the 103 announced 2027 cars. Built by `npm run catalog`; the app and the scanner both read it. |
 | Album | `public/js/store.js` | Saved in IndexedDB on the device, with photos. Export and Import backup move it between phones. |
+
+## Data sources
+
+Models, collector numbers, series and photos come from the [Hot Wheels Wiki](https://hotwheels.fandom.com) (CC BY-SA), credited in the app. Photos load from the wiki's image host. Hunt prices are a snapshot of mostly US eBay sold listings, converted to GBP. Barcode scanning is shown as "Soon": it needs a UPC-to-car table we do not have yet.
 
 ## Run it locally
 
@@ -35,7 +39,8 @@ The scan endpoint is public. The built-in rate limit runs per server instance, s
 
 ## Updating
 
-- **Prices:** edit `public/data/prices.json` and change `saved`. Visitors get the new prices on their next online visit.
+- **Prices:** edit `data/sources/prices-2026.json` (change `saved`), then `npm run catalog`.
+- **New cars (2027 cases as Mattel reveals them):** scrape `https://hotwheels.fandom.com/wiki/List_of_2027_Hot_Wheels` to markdown, run `python3 scripts/parse-wiki-list.py page.md 2027 > data/sources/wiki-2027.json`, then `npm run catalog`.
 - **App code:** after changing files in `public/`, bump `VERSION` in `public/sw.js` so installed apps pick up the new version.
 - **Icons:** `npm run icons` redraws the PNG icons (needs Python with Pillow).
 

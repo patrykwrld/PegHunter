@@ -1,6 +1,6 @@
 // Offline support: app shell cache-first, price list network-first, scans never cached.
-const VERSION = 'peghunter-v1';
-const SHELL = ['/', '/index.html', '/css/app.css', '/js/app.js', '/js/store.js', '/data/prices.json',
+const VERSION = 'peghunter-v2';
+const SHELL = ['/', '/index.html', '/css/app.css', '/js/app.js', '/js/store.js', '/data/catalog.json',
   '/manifest.webmanifest', '/icons/icon.svg', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 self.addEventListener('install', (e) => {
