@@ -1,0 +1,16 @@
+{
+  "name": "peghunter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Scan Hot Wheels cars, spot Treasure Hunts, price them in pounds, keep an album.",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "icons": "python3 scripts/make-icons.py"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.135.0"
+  }
+}

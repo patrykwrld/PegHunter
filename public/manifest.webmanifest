@@ -1,0 +1,25 @@
+{
+  "name": "Peg Hunter",
+  "short_name": "Peg Hunter",
+  "description": "Scan Hot Wheels cars, spot Treasure Hunts, price them in pounds, keep an album.",
+  "id": "/",
+  "start_url": "/#scan",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0E1013",
+  "theme_color": "#E2480C",
+  "lang": "en-GB",
+  "categories": ["shopping", "lifestyle", "utilities"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ],
+  "shortcuts": [
+    { "name": "Scan a car", "url": "/#scan" },
+    { "name": "Album", "url": "/#album" },
+    { "name": "Prices", "url": "/#prices" }
+  ]
+}

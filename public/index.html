@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Peg Hunter · Hot Wheels Treasure Hunt scanner</title>
+<meta name="description" content="Snap a Hot Wheels car in its pack. Find out if it is a Treasure Hunt or Super Treasure Hunt, what it is worth in pounds, and keep it in your album.">
+<meta name="theme-color" content="#F3F4F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1013" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Peg Hunter">
+<meta property="og:title" content="Peg Hunter">
+<meta property="og:description" content="Is it a Treasure Hunt? Scan it, price it in pounds, save it to your album.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/icons/icon-512.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icons/icon.svg" type="image/svg+xml">
+<link rel="icon" href="/icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@600;800&family=Barlow:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="wrap">
+      <div class="brand">
+        <div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 15.5h18M5 15.5l2-5h8.5l3 5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8" cy="17" r="2" fill="#fff"/><circle cx="16.5" cy="17" r="2" fill="#fff"/></svg></div>
+        <div class="brand-name">Peg<span>Hunter</span></div>
+      </div>
+      <button class="mini" type="button" id="btn-install" hidden>Install app</button>
+      <div class="worth"><small>Album worth</small><b class="num" id="hdr-worth">£0.00</b></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- SCAN -->
+    <section class="view wrap" id="v-scan">
+      <div>
+        <div class="eyebrow">Scan</div>
+        <h1>Is it a Treasure Hunt?</h1>
+      </div>
+      <p class="lede">Take a photo of a car in its pack. Get the type, what it is worth in pounds, and save it to your album.</p>
+
+      <div class="finder corners" id="finder"><i></i>
+        <div class="finder-empty" id="finder-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+          <b>Point at the card</b>
+          <span>Front of the pack, the whole card in the picture, good light.</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <label class="btn primary file-label" for="in-camera">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+          Take photo
+          <input id="in-camera" type="file" accept="image/*" capture="environment">
+        </label>
+        <label class="btn file-label" for="in-gallery">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m3 16 5-5 4 4 3-3 6 6"/></svg>
+          From gallery
+          <input id="in-gallery" type="file" accept="image/*">
+        </label>
+      </div>
+      <div class="notice" id="ai-notice" hidden></div>
+      <div id="result"></div>
+
+      <div class="how">
+        <div><b>Gold flame</b>on the card, rubber tyres, shiny paint: a Super.</div>
+        <div><b>Silver flame</b>on the card and a flame logo on the car: a Treasure Hunt.</div>
+        <div><b>No flame</b>a normal car, worth about the shop price.</div>
+      </div>
+    </section>
+
+    <!-- ALBUM -->
+    <section class="view wrap" id="v-album" hidden>
+      <div>
+        <div class="eyebrow">Your collection</div>
+        <h1>Album</h1>
+      </div>
+      <div class="stats">
+        <div class="stat hero"><small>Total value</small><b class="num" id="st-worth">£0.00</b></div>
+        <div class="stat"><small>Cars</small><b class="num" id="st-count">0</b></div>
+        <div class="stat"><small>Supers</small><b class="num" id="st-sth">0</b></div>
+      </div>
+      <div id="showcase"></div>
+      <div class="filters" role="group" aria-label="Filter">
+        <button class="fchip" data-f="all" aria-pressed="true">All</button>
+        <button class="fchip" data-f="sth" aria-pressed="false">Supers</button>
+        <button class="fchip" data-f="th" aria-pressed="false">Treasure Hunts</button>
+        <button class="fchip" data-f="other" aria-pressed="false">Others</button>
+      </div>
+      <div class="grid" id="album-grid"></div>
+      <p class="note" id="store-note"></p>
+      <div class="tools">
+        <button class="btn" type="button" id="btn-export">Export backup</button>
+        <label class="btn file-label" for="in-import">Import backup<input id="in-import" type="file" accept="application/json,.json"></label>
+      </div>
+      <p class="foot">Peg Hunter is a fan project, not linked to Mattel or Hot Wheels. Prices are a guide, not an offer.</p>
+    </section>
+
+    <!-- PRICES -->
+    <section class="view wrap" id="v-prices" hidden>
+      <div>
+        <div class="eyebrow">Price list · saved <span id="saved"></span></div>
+        <h1>2026 hunts</h1>
+      </div>
+      <p class="lede">Value now and 6-month average sold price, mostly US eBay sales, converted to pounds. Tap Add if you already own one.</p>
+      <input class="search" id="q" type="search" placeholder="Search a car, colour or case letter" aria-label="Search">
+      <div class="filters" role="group" aria-label="Type">
+        <button class="fchip" data-p="all" aria-pressed="true">All</button>
+        <button class="fchip" data-p="S" aria-pressed="false">Supers</button>
+        <button class="fchip" data-p="T" aria-pressed="false">Treasure Hunts</button>
+      </div>
+      <div class="plist" id="plist"></div>
+    </section>
+  </main>
+
+  <nav class="tabs" aria-label="Main">
+    <div class="inner">
+      <button class="tab" data-v="album"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>Album</button>
+      <button class="tab" data-v="scan" aria-current="page"><span class="scan-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M7 12h10"/></svg></span>Scan</button>
+      <button class="tab" data-v="prices"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Prices</button>
+    </div>
+  </nav>
+</div>
+<div id="sheet-root"></div>
+<div class="toast" id="toast" hidden></div>
+<div class="offline" id="offline" hidden>Offline · album still works</div>
+<script type="module" src="/js/app.js"></script>
+</body>
+</html>
