@@ -7,8 +7,8 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0E1013",
-  "theme_color": "#E2480C",
+  "background_color": "#0A0B0F",
+  "theme_color": "#0A0B0F",
   "lang": "en-GB",
   "categories": ["shopping", "lifestyle", "utilities"],
   "icons": [
@@ -20,6 +20,6 @@
   "shortcuts": [
     { "name": "Scan a car", "url": "/#scan" },
     { "name": "Album", "url": "/#album" },
-    { "name": "Prices", "url": "/#prices" }
+    { "name": "Prices", "url": "/#db" }
   ]
 }
